@@ -1,0 +1,5 @@
+Line 0, Char 25: Expected >, but found ] instead.
+Line 5, Char 42: Expected }, but found ) instead.
+Line 6, Char 35: Expected ], but found ) instead.
+Line 8, Char 18: Expected ], but found ) instead.
+Point Total : 66

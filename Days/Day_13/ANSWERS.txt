@@ -1,0 +1,7 @@
+no. dots after 1 fold
+ - 618
+no. dots after all folds
+ - 98
+
+SECRET MESSAGE
+ - "ALREKFKU"
