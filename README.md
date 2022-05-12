@@ -2,8 +2,9 @@
 Advent of Code 2021 Solutions
 
 
-### Days
-|Day Number|Title|Themes|  
+### Day Titles and Themes
+| Day | Title | Themes |  
+|-----|-------|--------|
 |[1](./Days/Day_1)|Sonar Sweep|Increasing|  
 |[2](./Days/Day_2)|Dive!|Move Objects|  
 |[3](./Days/Day_3)|Binary Diagnostic|Bit Analysis|  
