@@ -1,5 +1,5 @@
 # AOC-2021-Solutions
-Advent of Code 2021 Solutions
+My Personal Advent of Code 2021 Solutions
 
 
 ### Day Titles and Themes
@@ -23,10 +23,10 @@ Advent of Code 2021 Solutions
 |[16](./Days/Day_16)|Packet Decoder|Decoding, Logic, Syntax Analysis, Recursion|  
 |[17](./Days/Day_17)|Trick Shot|Physics Simulations, Optimisation, Exhaustive Search|  
 |[18](./Days/Day_18)|Snailfish| |  
-|[19](./Days/Day_19)| | |  
-|[20](./Days/Day_20)| | |  
-|[21](./Days/Day_21)| | |  
-|[22](./Days/Day_22)| | |  
-|[23](./Days/Day_23)| | |  
-|[24](./Days/Day_24)| | |  
-|[25](./Days/Day_25)| | |  
+|[19](./Days/Day_19)|Beacon Scanner| |  
+|[20](./Days/Day_20)|Trench Map| |  
+|[21](./Days/Day_21)|Dirac Dice| |  
+|[22](./Days/Day_22)|Reactor Reboot| |  
+|[23](./Days/Day_23)|Amphipod| |  
+|[24](./Days/Day_24)|Arithmetic Logic Unit| |  
+|[25](./Days/Day_25)|Sea Cucumber| |  
