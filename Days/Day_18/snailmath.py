@@ -98,12 +98,13 @@ def explode(start_node):
 
     while len(queue) != 0:
         node = queue.pop(0)
-        if node.depth < 4:
-            queue.insert(0, node.right)
-            queue.insert(0, node.left)
-        else:
-            exploded = True
-            break
+        if type(node) != int:
+            if node.depth < 4:
+                queue.insert(0, node.right)
+                queue.insert(0, node.left)
+            else:
+                exploded = True
+                break
     
     if exploded:
         left_add = node.left
@@ -171,12 +172,12 @@ def shortDFS(node, foo, depth=1):
         DFS(node.right, foo, depth+1)
 
 def giveDepthDFS(node, depth=1):
-    DFS(node, (lambda node, depth: setValue(node.depth, depth)))
+    DFS(node, setDepth)
 
-def setValue(a,b):
-    a = b
-
-
+def setDepth(node,depth):
+    if type(node) != int:
+        node.depth = depth
+    
 
 def main():
     numbers = readInput()
