@@ -1,3 +1,4 @@
+from bdb import Breakpoint
 from numpy import number
 
 
@@ -18,9 +19,12 @@ OUTPUT = "test_output.txt"
 
 def readInput():
     numbers_to_add = []
+    
     with open(INPUT, "r") as f:
         data = list(map(lambda line: line[:-1],f.readlines()))
+    
     numbers_to_add = list(map(constructSnailNumber, data))
+
     for number in numbers_to_add:
         giveDepthDFS(number)
 
@@ -88,8 +92,59 @@ def reduce(snail_node):
     while explode(snail_node) or split(snail_node):
         pass
 
-def explode(node):
-    pass
+def explode(start_node):
+    exploded = False
+    queue = [start_node]
+
+    while len(queue) != 0:
+        node = queue.pop(0)
+        if node.depth < 4:
+            queue.insert(0, node.right)
+            queue.insert(0, node.left)
+        else:
+            exploded = True
+            break
+    
+    if exploded:
+        left_add = node.left
+        right_add = node.right
+
+        none = False
+        previous = node
+        parent = node.parent
+        while parent.left == previous:
+            if parent.depth == 1:
+                none = True
+                break
+            previous = parent
+            parent = parent.parent
+        
+        if not none:
+            next_left_node = parent.left
+            while True:
+                if next_left_node.isRightNumber():
+                    next_left_node.right += left_add
+                    break
+        
+        none = False
+        previous = node
+        parent = node.parent
+        while parent.right == previous:
+            if parent.depth == 1:
+                none = True
+                break
+            previous = parent
+            parent = parent.parent
+        
+        if not none:
+            next_right_node = parent.right
+            while True:
+                if next_right_node.isLeftNumber():
+                    next_right_node.left += right_add
+                    break
+
+    
+    
 
 def split(node):
     pass
@@ -108,30 +163,20 @@ def DFS(node, foo, depth=1):
 def printDFS(node, depth=0):
     DFS(node, print)
 
+def shortDFS(node, foo, depth=1):
+    if node.isLeftNumber():   
+        foo(node.left, depth)
+    else:
+        DFS(node.left, foo, depth+1)
+        DFS(node.right, foo, depth+1)
+
 def giveDepthDFS(node, depth=1):
     DFS(node, (lambda node, depth: setValue(node.depth, depth)))
 
 def setValue(a,b):
     a = b
 
-# def explodeDFS(node, depth=0):
-#     if type(node) == int:
-#         print(depth, node)
-#     else:
-#         printDFS(node.left, depth+1)
-#         printDFS(node.right, depth+1)
 
-# def explodeDFS(node):
-#     depth = 1
-#     queue = [node]
-#     parent_node = node
-
-#     while queue != []:
-#         if depth >= 4:
-
-
-
-    
 
 def main():
     numbers = readInput()
