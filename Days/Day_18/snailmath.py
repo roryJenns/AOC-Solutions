@@ -67,14 +67,19 @@ def addNumbers(numbers):
     result = numbers[0]
     for i in range(1, len(numbers)):
         result = add(result, numbers[i])
+        
     return result
 
 def add(first, second):
     addition_node = Node(first, second)
+
+    first.parent = addition_node
+    second.parent = addition_node
     
     giveDepthDFS(addition_node)
 
     reduce(addition_node)
+
     return addition_node
 
 
@@ -111,12 +116,12 @@ def explode(start_node):
         none = False
         previous = node
         parent = node.parent
-        while parent.left == previous:
-            if parent.depth == 1:
-                none = True
-                break
+        while parent != -1 and parent.left == previous:
             previous = parent
             parent = parent.parent
+
+        if parent == -1:
+            none = True
         
         if not none:
             if parent.isLeftNumber():
@@ -134,13 +139,12 @@ def explode(start_node):
         none = False
         previous = node
         parent = node.parent
-        while parent.right == previous:
-            if parent.depth == 1:
-                none = True
-                break
+        while parent != -1 and parent.right == previous:
             previous = parent
             parent = parent.parent
         
+        if parent == -1:
+            none = True
         
         if not none:
             if parent.isRightNumber():
@@ -222,14 +226,14 @@ def printDFS(node, depth=0):
     DFS(node, (lambda text1, text2: print(text1, text2, end=", ")))
     print()
 
-def shortDFS(node, foo, depth=1):
+def shortDFS(node, foo, depth=0):
     if node.isLeftNumber():   
         foo(node.left, depth)
     else:
         DFS(node.left, foo, depth+1)
         DFS(node.right, foo, depth+1)
 
-def giveDepthDFS(node, depth=1):
+def giveDepthDFS(node, depth=0):
     if type(node) != int:
         setDepth(node, depth)
         giveDepthDFS(node.left, depth+1)
@@ -244,9 +248,11 @@ def main():
     numbers = readInput()
     printDFS(numbers[0])
 
+    print()
+
     for number in numbers:
         reduce(number)
-    printDFS(numbers[0])
+        printDFS(number)
 
     result = addNumbers(numbers)
     print("RESULT")

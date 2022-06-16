@@ -3,7 +3,7 @@ class Node():
         self.left = left
         self.right = right
         self.parent = -1
-        self.depth = 1
+        self.depth = 0
 
     def isLeftNumber(self):
         return type(self.left)==int
