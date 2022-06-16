@@ -81,6 +81,7 @@ def addNumbers(numbers):
     result = numbers[0]
     for i in range(1, len(numbers)):
         result = add(result, numbers[i])
+    return result
 
 def add(first, second):
     addition_node = Node(first, second)
@@ -89,27 +90,35 @@ def add(first, second):
 
 
 def reduce(snail_node):
+    # if any pair can explode, do that then reset
     while explode(snail_node) or split(snail_node):
         pass
+
 
 def explode(start_node):
     exploded = False
     queue = [start_node]
 
+    # search for pairs of depth 4
+    # 'general search'
     while len(queue) != 0:
         node = queue.pop(0)
         if type(node) != int:
             if node.depth < 4:
+                # add to queue
                 queue.insert(0, node.right)
                 queue.insert(0, node.left)
             else:
+                # flag and exit
                 exploded = True
                 break
     
+
     if exploded:
         left_add = node.left
         right_add = node.right
 
+        # add left part of pair to left side
         none = False
         previous = node
         parent = node.parent
@@ -121,12 +130,18 @@ def explode(start_node):
             parent = parent.parent
         
         if not none:
-            next_left_node = parent.left
-            while True:
-                if next_left_node.isRightNumber():
-                    next_left_node.right += left_add
-                    break
+            if parent.isLeftNumber():
+                parent.left += left_add
+            else:
+                next_left_node = parent.left
+                while True:
+                    if type(next_left_node) == int:
+                        parent.right += left_add
+                        break
+                    parent = next_left_node
+                    next_left_node = parent.right
         
+        # add right part of pair to right side
         none = False
         previous = node
         parent = node.parent
@@ -137,18 +152,72 @@ def explode(start_node):
             previous = parent
             parent = parent.parent
         
+        
         if not none:
-            next_right_node = parent.right
-            while True:
-                if next_right_node.isLeftNumber():
-                    next_right_node.left += right_add
-                    break
+            if parent.isRightNumber():
+                parent.right += right_add
+            else:
+                next_right_node = parent.right
+                while True:
+                    if type(next_right_node) == int:
+                        parent.left += right_add
+                        break
+                    parent = next_right_node
+                    next_right_node = parent.left
 
-    
+        # replace node with 0
+        set_zero = False
+        parent = node.parent
+        if not parent.isLeftNumber():
+            if parent.left.depth >= 4:
+                parent.left = 0
+                set_zero = True
+        
+        if not set_zero and not parent.isRightNumber():
+            if parent.right.depth >= 4:
+                parent.right = 0
+        
+        return True
+    else:
+        return False
     
 
-def split(node):
-    pass
+def split(start_node):
+    split_flag = False
+    queue = [start_node]
+
+    direction = "left"
+    value = -1
+
+    # search for pairs of depth 4
+    # 'general search'
+    while len(queue) != 0:
+        node = queue.pop(0)
+        if type(node) != int:
+            # add to queue
+            queue.insert(0, node.right)
+            queue.insert(0, node.left)
+            if node.isLeftNumber() and node.left > 9:
+                # flag and exit
+                split_flag = True
+                direction = "left"
+                value = node.left
+                break
+            elif node.isRightNumber() and node.right > 9:
+                split_flag = True
+                direction = "right"
+                value = node.right
+                break
+    if split_flag:
+        branch_node = Node(int(value//2), int(value//2) + (value%2))
+        branch_node.parent = node
+        branch_node.depth = node.depth + 1
+        if direction == "left":
+            node.left = branch_node
+        if direction == "right":
+            node.right = branch_node
+
+    return split_flag
 
 
 def calculateMagnitude(result):
@@ -162,7 +231,8 @@ def DFS(node, foo, depth=1):
         DFS(node.right, foo, depth+1)
 
 def printDFS(node, depth=0):
-    DFS(node, print)
+    DFS(node, (lambda text1, text2: print(text1, text2, end=", ")))
+    print()
 
 def shortDFS(node, foo, depth=1):
     if node.isLeftNumber():   
@@ -172,25 +242,31 @@ def shortDFS(node, foo, depth=1):
         DFS(node.right, foo, depth+1)
 
 def giveDepthDFS(node, depth=1):
-    DFS(node, setDepth)
+    if type(node) != int:
+        setDepth(node, depth)
+        giveDepthDFS(node.left, depth+1)
+        giveDepthDFS(node.right, depth+1)
 
-def setDepth(node,depth):
+def setDepth(node, depth):
     if type(node) != int:
         node.depth = depth
     
 
 def main():
     numbers = readInput()
-
     printDFS(numbers[0])
 
+    for number in numbers:
+        reduce(number)
+    printDFS(numbers[0])
 
     result = addNumbers(numbers)
-    print(result)
+    print("RESULT")
+    printDFS(result)
 
 
     magnitude = calculateMagnitude(result)
-    print(magnitude)
+    print("MAGNITUDE",magnitude)
 
 
 main()
