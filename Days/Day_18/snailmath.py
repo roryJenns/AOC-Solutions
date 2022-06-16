@@ -1,18 +1,4 @@
-from bdb import Breakpoint
-from numpy import number
-
-
-class Node():
-    def __init__(self, left=-1, right=-1):
-        self.left = left
-        self.right = right
-        self.parent = -1
-        self.depth = -1
-
-    def isLeftNumber(self):
-        return type(self.left)==int
-    def isRightNumber(self):
-        return type(self.right)==int
+from node import Node as Node
 
 INPUT = "test_input.txt"
 OUTPUT = "test_output.txt"
@@ -85,6 +71,9 @@ def addNumbers(numbers):
 
 def add(first, second):
     addition_node = Node(first, second)
+    
+    giveDepthDFS(addition_node)
+
     reduce(addition_node)
     return addition_node
 
@@ -210,8 +199,7 @@ def split(start_node):
                 break
     if split_flag:
         branch_node = Node(int(value//2), int(value//2) + (value%2))
-        branch_node.parent = node
-        branch_node.depth = node.depth + 1
+        branch_node.setParent(node)
         if direction == "left":
             node.left = branch_node
         if direction == "right":
