@@ -1,5 +1,5 @@
 # AOC-2021-Solutions
-My Personal Advent of Code 2021 Solutions
+My Personal Advent of Code 2021 Solutions written in Python
 
 
 ### Day Titles and Themes
