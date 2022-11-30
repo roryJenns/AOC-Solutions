@@ -1,6 +1,6 @@
 from node import Node as Node
 
-INPUT = "test_input.txt"
+INPUT = "small_test.txt"
 OUTPUT = "test_output.txt"
 
 def readInput():
@@ -65,6 +65,9 @@ def splitString(string):
     
 def addNumbers(numbers):
     result = numbers[0]
+
+    reduce(result) # should remove this
+    
     for i in range(1, len(numbers)):
         result = add(result, numbers[i])
         
@@ -73,12 +76,14 @@ def addNumbers(numbers):
 def add(first, second):
     addition_node = Node(first, second)
 
-    first.parent = addition_node
-    second.parent = addition_node
+    first.setParent(addition_node)
+    second.setParent(addition_node)
     
     giveDepthDFS(addition_node)
 
     reduce(addition_node)
+
+    giveDepthDFS(addition_node)
 
     return addition_node
 
@@ -87,6 +92,13 @@ def reduce(snail_node):
     # if any pair can explode, do that then reset
     while explode(snail_node) or split(snail_node):
         pass
+
+    # while True:
+    #     if explode(snail_node):
+    #         continue
+    #     if split(snail_node):
+    #         continue
+    #     break
 
 
 def explode(start_node):
@@ -123,6 +135,7 @@ def explode(start_node):
         if parent == -1:
             none = True
         
+        # Add value
         if not none:
             if parent.isLeftNumber():
                 parent.left += left_add
@@ -146,6 +159,7 @@ def explode(start_node):
         if parent == -1:
             none = True
         
+        # Add value
         if not none:
             if parent.isRightNumber():
                 parent.right += right_add
@@ -213,7 +227,7 @@ def split(start_node):
 
 
 def calculateMagnitude(result):
-    pass
+    return result.calcMagnitude()
 
 def DFS(node, foo, depth=1):
     if type(node) == int:   
@@ -223,7 +237,7 @@ def DFS(node, foo, depth=1):
         DFS(node.right, foo, depth+1)
 
 def printDFS(node, depth=0):
-    DFS(node, (lambda text1, text2: print(text1, text2, end=", ")))
+    DFS(node, (lambda text1, text2: print(text1, end=", ")))
     print()
 
 def shortDFS(node, foo, depth=0):
@@ -246,21 +260,16 @@ def setDepth(node, depth):
 
 def main():
     numbers = readInput()
-    printDFS(numbers[0])
-
-    print()
-
-    for number in numbers:
-        reduce(number)
-        printDFS(number)
 
     result = addNumbers(numbers)
+
     print("RESULT")
     printDFS(result)
-
 
     magnitude = calculateMagnitude(result)
     print("MAGNITUDE",magnitude)
 
 
 main()
+
+# test_input.txt - AIM - 4140
