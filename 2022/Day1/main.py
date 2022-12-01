@@ -1,14 +1,20 @@
-INPUT_FILENAME = "input.txt"
 
-def readData():
-    f = open(INPUT_FILENAME, "r")
-    data = list(map(lambda x : x[:-1], f.readlines()))
-    f.close()
-    return data
+import sys
+ 
+# setting path
+sys.path.append('')
+
+from helper.fileHander import readData
+
+
+TEST_INPUT = "DAYX_test_input.txt"
+REAL_INPUT = "DAYX_input.txt"
+INPUT_FILENAME = REAL_INPUT
+
 
 
 def processData():
-    raw = readData()
+    raw = readData(INPUT_FILENAME)
 
     per_elf = []
     temp = []
@@ -25,16 +31,13 @@ def processData():
 
 
 def main():
-    debug = False
-    
     data = processData()
 
     sums = sorted(list(map(sum, data)), reverse=True)
+    top = sums[0]
     top_three = sums[0] + sums[1] + sums[2]
 
-    if debug:
-        print(sums)
-    
-    print(top_three)
+    print("PART 1 :",top)
+    print("PART 2 :",top_three)
 
 main()
