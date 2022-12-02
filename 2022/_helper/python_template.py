@@ -1,7 +1,8 @@
 DAY_NUMBER = 1
-TEST_INPUT = "DAY"+str(DAY_NUMBER)+"_test_input.txt"
-REAL_INPUT = "DAY"+str(DAY_NUMBER)+"_input.txt"
+TEST_INPUT = "test_input.txt"
+REAL_INPUT = "input.txt"
 INPUT_FILENAME = TEST_INPUT
+INPUT_FILENAME = REAL_INPUT
 
 def readData(filename):
     file = "input/"+filename
