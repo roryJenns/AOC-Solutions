@@ -1,52 +1,37 @@
+from functools import cache
+import itertools
 
+P1_START = 3
+P2_START = 7
 
-P1_START = 4
-P2_START = 8
-
-def newWorldPlayer(player_worlds_at_score):
-    p_temp = [0 for _ in range(1+21+9)]
-    for initial_score in range(21):
-        num_worlds = player_worlds_at_score[initial_score]
-
-        for dice_sum in range(3,9+1):
-            worlds_created = outcomes[dice_sum]
-
-            p_temp[initial_score+dice_sum] += worlds_created * num_worlds
+@cache
+def runGame(p1_pos, p1_score, p2_pos, p2_score, turn):
+    if p1_score >= 21:
+        return (1,0)
+    if p2_score >= 21:
+        return (0,1)
     
-    for i,x in enumerate(p_temp):
-        player_worlds_at_score[i] = x
+    pos = p1_pos if turn else p2_pos
+
+    # new positions for each throw
+
+    new_positions = [(pos + throw - 1) % 10 + 1 for throw in throws]
+
+    # new games for each position
+
+    if turn:
+        # player1
+        subgames = [runGame(new_p, p1_score + new_p, p2_pos, p2_score, not turn) for new_p in new_positions]
+    else:
+        # player2
+        subgames = [runGame(p1_pos, p1_score, new_p, p2_score + new_p, not turn) for new_p in new_positions]
+
+    return (sum(win for win, _ in subgames), sum(win for _, win in subgames))
     
-    return player_worlds_at_score
 
 
-last_roll = 0
+throws = [sum(x) for x in itertools.product([1, 2, 3], repeat=3)]
 
-outcomes = [0, 0, 0, 1, 3, 6, 7, 6, 3, 1]
-player1_worlds_at_score = [0 for _ in range(1+21+9)]
-player1_worlds_at_score[0] = 1
-player2_worlds_at_score = [0 for _ in range(1+21+9)]
-player2_worlds_at_score[0] = 1
+wins = runGame(P1_START, 0, P2_START, 0, True)
 
-p = player1_worlds_at_score
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-p =  newWorldPlayer(p)
-print (p)
-
-
-
+print(max(wins))
