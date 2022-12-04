@@ -25,7 +25,7 @@ My Personal Advent of Code 2021 Solutions written in Python
 |[18](./Days/Day_18)|Snailfish| |  
 |[19](./Days/Day_19)|Beacon Scanner| |  
 |[20](./Days/Day_20)|Trench Map| |  
-|[21](./Days/Day_21)|Dirac Dice| |  
+|[21](./Days/Day_21)|Dirac Dice|Caching, Recursion, Many worlds theory|  
 |[22](./Days/Day_22)|Reactor Reboot| |  
 |[23](./Days/Day_23)|Amphipod| |  
 |[24](./Days/Day_24)|Arithmetic Logic Unit| |  
