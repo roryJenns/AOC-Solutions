@@ -64,8 +64,6 @@ def processData1():
 
     return root
 
-
-
 def sumTree(self):
     self.x = 0
     def addX(self, v):
