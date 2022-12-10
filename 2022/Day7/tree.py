@@ -31,9 +31,3 @@ class Node:
     def calcSizeFoo(self, foo):
         return self.calcSize()
     
-
-# if __name__ == "__main__":
-#     b = BinaryTree()
-#     b.defaultTree()
-#     # b.printInOrder()
-#     b.sumTree()
